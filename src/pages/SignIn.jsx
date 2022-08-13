@@ -33,6 +33,7 @@ const MainContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin: auto;
   height: 80vh;
   width: 30vw;
   background-color: 'transparent';
@@ -56,14 +57,14 @@ const MainContainer = styled.div`
   }
   @media only screen and (min-width: 360px) {
     width: 80vw;
-    height: 90vh;
+    height: 70vh;
     h4 {
       font-size: small;
     }
   }
   @media only screen and (min-width: 411px) {
     width: 80vw;
-    height: 90vh;
+    height: 80vh;
   }
   @media only screen and (min-width: 768px) {
     width: 80vw;

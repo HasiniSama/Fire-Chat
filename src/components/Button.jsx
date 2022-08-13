@@ -21,15 +21,29 @@ const StyledButton = styled.button`
   height: 3rem;
   color: white;
   cursor: pointer;
+  transition: 0.3s ease-in-out all;
+  margin-top: 1.5rem;
 
   &:hover{
-    background-image: linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%), 
+    /* background-image: linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%), 
                     linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%);
-    transition: 0.5s;
-    color: #000328;
+    color: #000328; */
+    transform: scale(1.05);
   }
 
-  @media only screen and (min-width: 1280px) {
-    margin-top: 1.5rem;
-  }
 `;
+
+// const Ripple = styled.span`
+//   position: absolute; 
+//   border-radius: 50%;
+//   transform: scale(0);
+//   animation: ripple 600ms linear;
+//   background-color: rgba(255, 255, 255, 0.7);
+
+//   @keyframes ripple {
+//     to {
+//       transform: scale(4);
+//       opacity: 0;
+//     }
+//   }
+// `;
