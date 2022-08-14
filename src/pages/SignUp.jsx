@@ -5,6 +5,8 @@ import { setDoc, doc, Timestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/Button";
+import Icon from "../components/Icon";
+import { FaArrowCircleRight } from "react-icons/fa";
 
 function SignUp() {
 
@@ -30,7 +32,7 @@ function SignUp() {
     setData({ ...data, error: null, loading: true });
     if (!name || !email || !pass || !cpass) {
       setData({ ...data, error: "All fields are required" });
-    }else if (cpass != pass){
+    }else if (cpass !== pass){
       setData({ ...data, error: "Passwords doesn't match" });
     }else{
       try {
@@ -56,9 +58,9 @@ function SignUp() {
         alert("Account Successfully Created!")
         navigate("/signin");
       } catch (err) {
-        if ( err.code == 'auth/email-already-in-use'){
+        if ( err.code === 'auth/email-already-in-use'){
           setData({ ...data, error: "Email already in use", loading: false });
-        }else if( err.code == 'auth/weak-password'){
+        }else if( err.code === 'auth/weak-password'){
           setData({ ...data, error: "Password should be minimum 6 characters", loading: false });
         }else{
           setData({ ...data, error: "Error creating account", loading: false });
@@ -66,7 +68,12 @@ function SignUp() {
         }
       }
     }
-  }
+  };
+
+  const navigateToSignin = (e) => {
+    e.preventDefault();
+    navigate("/signin");
+  };
 
   return (
       <MainContainer onSubmit={handleSubmit}>
@@ -78,9 +85,14 @@ function SignUp() {
           <Input type="password" name="cpass" placeholder="Confirm Password" value={cpass} onChange={handleChange}/>
         </InputContainer>
         <ButtonContainer>
-          <Button content="Create an Account"  disabled={loading}/>
+          <Button content={loading ? "Creating ..." : "Create an Account"}  disabled={loading}/>
           {error ? <ErrorText>{error}!</ErrorText> : null}
         </ButtonContainer>
+        <Text onClick={navigateToSignin}>Have An Account?  
+            <Icon >
+                <FaArrowCircleRight />
+            </Icon>
+        </Text>
       </MainContainer>
   )
 }
@@ -90,7 +102,6 @@ const MainContainer = styled.form`
   align-items: center;
   flex-direction: column;
   margin: auto;
-  height: 80vh;
   width: 30vw;
   background-color: 'transparent';
   box-shadow: 20px 20px 50px 0 rgb(0,0,0,0.5);
@@ -98,12 +109,10 @@ const MainContainer = styled.form`
   border: 1px solid rgb(255,255,255,0.3);
   border-right: 0;
   border-bottom: 0;
-  color: var(--color-1);
   text-transform: uppercase;
   letter-spacing: 0.4rem;
   @media only screen and (max-width: 320px) {
     width: 80vw;
-    height: 80vh;
     hr {
       margin-bottom: 0.3rem;
     }
@@ -113,26 +122,21 @@ const MainContainer = styled.form`
   }
   @media only screen and (min-width: 360px) {
     width: 80vw;
-    height: 80vh;
     h4 {
       font-size: small;
     }
   }
   @media only screen and (min-width: 411px) {
     width: 80vw;
-    height: 80vh;
   }
   @media only screen and (min-width: 768px) {
     width: 80vw;
-    height: 80vh;
   }
   @media only screen and (min-width: 1024px) {
     width: 70vw;
-    height: 50vh;
   }
   @media only screen and (min-width: 1280px) {
     width: 30vw;
-    height: 80vh;
   }
 `;
 
@@ -151,7 +155,7 @@ const InputContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  margin: 10rem 0 2rem 0;
+  margin: 0rem 0 2rem 0;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -192,6 +196,15 @@ const ErrorText = styled.h6`
   background: white;
   border-radius: 1rem;
   text-align: center;
+`;
+
+const Text = styled.h4`
+  color: white;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
 `;
 
 export default SignUp

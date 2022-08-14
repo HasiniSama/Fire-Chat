@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <NavContainer>
         <NameText>Fire Chat</NameText>
-        <NavLink to="/signin" 
+        {/* <NavLink to="/signin" 
             style={(state) => ({
                 display: state.isActive ? 'none' : 'block',
             })}>
@@ -17,7 +17,7 @@ const Navbar = () => {
                 display: state.isActive ? 'none' : 'block',
             })}>
             <NavText>Sign Up</NavText>
-        </NavLink>
+        </NavLink> */}
     </NavContainer>
   )
 }
