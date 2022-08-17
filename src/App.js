@@ -4,18 +4,22 @@ import Home from "./pages/Home"
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import NavBar from './components/Navbar'
+import AuthProvider from "./context/auth"
+import PrivateRoute from "./components/PrivateRoute"
 
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar/>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/signin' element={<SignIn/>}/>
-        <Route path='/signup' element={<SignUp/>}/>
-      </Routes>
-    </BrowserRouter>
-  );
+    <AuthProvider>
+      <BrowserRouter>
+        <NavBar/>
+        <Routes>
+          <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>}/>
+          <Route path='/signin' element={<SignIn/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  )
 }
 
 export default App;
