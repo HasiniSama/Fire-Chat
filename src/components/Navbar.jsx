@@ -1,24 +1,35 @@
-import React from 'react'
-import styled from "styled-components";
+import React, { useContext } from 'react'
+import styled from "styled-components"
 import { NavLink } from "react-router-dom"
+import { auth, db } from "../firebase"
+import { signOut } from "firebase/auth"
+import { updateDoc, doc } from "firebase/firestore"
+import { AuthContext } from "../context/auth"
+import { useNavigate } from "react-router-dom"
 
 const Navbar = () => {
-  return (
-    <NavContainer>
-        <NameText>Fire Chat</NameText>
-        {/* <NavLink to="/signin" 
-            style={(state) => ({
-                display: state.isActive ? 'none' : 'block',
-            })}>
-            <NavText>Sign In</NavText>
-        </NavLink>
-        <NavLink to="/signup" style={(state) => 
-            ({
-                display: state.isActive ? 'none' : 'block',
-            })}>
-            <NavText>Sign Up</NavText>
-        </NavLink> */}
-    </NavContainer>
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+
+    const handleSignout = async () => {
+        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+          isOnline: false,
+        });
+        await signOut(auth);
+        navigate("/signin");
+    };
+
+    return (
+        <NavContainer>
+            <NameText>Fire Chat</NameText>
+            <Navdiv>
+            { user ?
+            <>
+                <NavLink to="/profile"><NavText>Profile</NavText></NavLink>
+                <NavText onClick={handleSignout}>Logout</NavText>
+            </> : <></>}
+            </Navdiv>
+        </NavContainer>
   )
 }
 
@@ -31,9 +42,14 @@ const NavContainer = styled.nav`
     background-color: 'transparent';
 `;
 
+const Navdiv = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 const NavText = styled.h3`
     color : var(--color-2);
-    text-decoration: none; 
+    text-decoration: none !important;
     box-shadow: 20px 20px 50px 0 rgb(0,0,0,0.5);
     padding: 0.5rem 2rem;
     border-radius: 20px;
@@ -41,19 +57,13 @@ const NavText = styled.h3`
     border-right: 0;
     border-bottom: 0;
     transition: 0.3s ease-in-out all;
-
-    &:hover{
-    transform: scale(1.05);
-    }
+    margin: 1rem;
+    cursor: pointer;
 `;
 
 const NameText = styled.h3`
-    /* background-image: linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%); */
     color: white;
     padding: 0.5rem 2rem;
 `;
 
-// const NavItems = styled.div`
-//     margin-top: 0 !important; 
-// `;
 export default Navbar
