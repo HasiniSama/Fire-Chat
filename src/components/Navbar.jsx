@@ -50,15 +50,16 @@ const Navdiv = styled.div`
 const NavText = styled.h3`
     color : var(--color-2);
     text-decoration: none !important;
-    box-shadow: 20px 20px 50px 0 rgb(0,0,0,0.5);
     padding: 0.5rem 2rem;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid rgb(255,255,255,0.3);
-    border-right: 0;
-    border-bottom: 0;
     transition: 0.3s ease-in-out all;
     margin: 1rem;
     cursor: pointer;
+
+    &:hover{
+    transform: scale(1.05);
+  }
 `;
 
 const NameText = styled.h3`
