@@ -25,7 +25,7 @@ const Navbar = () => {
             <Navdiv>
             { user ?
             <>
-                <NavLink to="/profile"><NavText>Profile</NavText></NavLink>
+                <NavLink to="/profile" style={{ textDecoration: 'none' }}><NavText>Profile</NavText></NavLink>
                 <NavText onClick={handleSignout}>Logout</NavText>
             </> : <></>}
             </Navdiv>
