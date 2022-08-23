@@ -4,9 +4,12 @@ export default function Button({ content, children }) {
   return <StyledButton>{children}{content}</StyledButton>;
 }
 
+export function ShortButton({ content, children }) {
+  return <ShortStyledButton>{children}{content}</ShortStyledButton>;
+}
+
 const StyledButton = styled.button`
   border: double 3px transparent;
-  /* border-image: linear-gradient(to right, #09FBD3 0%, #FE53BB 79%); */
   background-image: linear-gradient(#000328, #000328), 
                     linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%);
   background-origin: border-box;
@@ -30,20 +33,23 @@ const StyledButton = styled.button`
     color: #000328; */
     transform: scale(1.05);
   }
+`
 
-`;
+const ShortStyledButton = styled(StyledButton)`
+    height: 2.5rem !important;
+`
+/*
+const Ripple = styled.span`
+  position: absolute; 
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple 600ms linear;
+  background-color: rgba(255, 255, 255, 0.7);
 
-// const Ripple = styled.span`
-//   position: absolute; 
-//   border-radius: 50%;
-//   transform: scale(0);
-//   animation: ripple 600ms linear;
-//   background-color: rgba(255, 255, 255, 0.7);
-
-//   @keyframes ripple {
-//     to {
-//       transform: scale(4);
-//       opacity: 0;
-//     }
-//   }
-// `;
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+`;*/
