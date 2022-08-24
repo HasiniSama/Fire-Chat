@@ -18,6 +18,7 @@ const User = ({ sender, user, selectUser, chat }) => {
     }, [])
 
     return (
+        <>
             <UserWrapper status={chat.name === user.name ? "selected_user" : ""} onClick={() => selectUser(user)}>
                 <UserInfo>
                     <UserDetails>
@@ -36,6 +37,11 @@ const User = ({ sender, user, selectUser, chat }) => {
                     </Truncate>
                 )}
             </UserWrapper>
+            <SmallWrapper status={chat.name === user.name ? "selected_user" : ""} 
+                    onClick={() => selectUser(user)}>
+                    <SmallImg src={user.avatar || UserImg} alt="avatar"/>
+            </SmallWrapper>
+        </>
   )
 }
 
@@ -58,7 +64,11 @@ const UserWrapper = styled.div`
         } else {
             return 'var(--color-6)';
         } 
-    }}
+    }};
+
+    @media screen and (max-width: 576px) {
+        display: none;
+    }
 `
 
 const UserInfo = styled.div`
@@ -102,5 +112,29 @@ const Unread = styled.small`
     color: white;
     padding: 2px 4px;
     border-radius: 10px;
+`
+const SmallWrapper = styled.div`
+    display: none;
+    @media screen and (max-width: 576px) {
+        display: block;
+        padding: 10px 0px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    background:${props => {
+        const status = props.status
+
+        if (status === 'selected_user') {
+            return 'white';
+        } else {
+            return 'var(--color-6)';
+        } 
+    }};
+`
+const SmallImg = styled(Img)`
+    @media screen and (max-width: 576px) {
+        display: inline-block;
+    }
 `
 export default User

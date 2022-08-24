@@ -133,6 +133,14 @@ const MainContainer = styled.div`
   overflow: hidden;
   height: calc(100vh - 70px);
   width: 100vw;
+
+  @media screen and (max-width: 767px) {
+    grid-template-columns: 2fr 3fr;
+  }
+
+  @media screen and (max-width: 576px) {
+    grid-template-columns: 1fr 5fr;
+  }
 `
 const UserContainer = styled.div`
   margin-top: 10px;

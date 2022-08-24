@@ -38,6 +38,7 @@ const Message = ({ msg, sender }) => {
 const MessageWapper = styled.div`
     margin-top: 5px;
     padding: 0px 5px;
+
 `
 const SenderMessageWapper = styled(MessageWapper)`
     text-align: right;
@@ -51,6 +52,14 @@ const MessageText = styled.p`
     max-width: 50%;
     text-align: left;
     border-radius: 5px;
+
+    @media screen and (max-width: 767px) {
+        max-width: 75%;
+    }
+
+    @media screen and (max-width: 576px) {
+        max-width: 100%;
+    }
 `
 const SenderMessageText = styled(MessageText)`
     background: var(--color-1);

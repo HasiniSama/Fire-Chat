@@ -37,6 +37,12 @@ const MainContainer = styled.form`
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    @media screen and (max-width: 767px) {
+        left: 3%;
+        right: 0;
+        bottom: 5px;
+    }
 `
 const Input = styled.input`
     background-color: 'transparent';
@@ -51,6 +57,11 @@ const Input = styled.input`
     border-radius: 30px;
     outline: none;
     border: none;
+
+    @media screen and (max-width: 576px) {
+        width: 50vw;
+        margin: 0px 10px;
+    }
 `
 
 const ButtonContainer = styled.div`
