@@ -32,11 +32,11 @@ const Home = () => {
       return () => unsub()
     }, []);
 
-    const selectUser = (user) => {
+    const selectUser = async (user) => {
       setChat(user)
   
       const receiver = user.uid
-      const id = sender > receiver ? `${sender + receiver}` : `${sender + receiver}`
+      const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`
   
       const msgsRef = collection(db, "messages", id, "chat")
       const q = query(msgsRef, orderBy("createdAt", "asc"))
@@ -49,14 +49,13 @@ const Home = () => {
         setMsgs(msgs)
       })
       
-      console.log(msgs)
-      // // get last message b/w logged in user and selected user
-      // const docSnap = await getDoc(doc(db, "lastMsg", id))
-      // // if last message exists and message is from selected user
-      // if (docSnap.data() && docSnap.data().from !== user1) {
-      //   // update last message doc, set unread to false
-      //   await updateDoc(doc(db, "lastMsg", id), { unread: false })
-      // }
+      // get last message between logged in user and selected user
+      const docSnap = await getDoc(doc(db, "lastMsg", id))
+      // if last message exists and message is from selected user
+      if (docSnap.data() && docSnap.data().from !== sender) {
+        // update last message doc, set unread to false
+        await updateDoc(doc(db, "lastMsg", id), { unread: false })
+      }
     }
 
     const handleSubmit = async (e) => {
@@ -64,7 +63,7 @@ const Home = () => {
 
       const receiver = chat.uid
       
-      const id = sender > receiver ? `${sender + receiver}` : `${sender + receiver}`
+      const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`
   
       let url;
       if (img) {
@@ -85,14 +84,14 @@ const Home = () => {
         media: url || "",
       })
   
-      // await setDoc(doc(db, "lastMsg", id), {
-      //   text,
-      //   from: user1,
-      //   to: user2,
-      //   createdAt: Timestamp.fromDate(new Date()),
-      //   media: url || "",
-      //   unread: true,
-      // })
+      await setDoc(doc(db, "lastMsg", id), {
+        text,
+        from: sender,
+        to: receiver,
+        createdAt: Timestamp.fromDate(new Date()),
+        media: url || "",
+        unread: true,
+      })
       
       setText("")
       setImg("")
@@ -102,7 +101,7 @@ const Home = () => {
     <MainContainer>
       <UserContainer>
         {users.map((user) => (
-          <User key={user.uid} user={user} selectUser={selectUser}/>
+          <User key={user.uid} user={user} selectUser={selectUser} sender={sender} chat={chat}/>
         ))}
       </UserContainer>
       <MessagesContainer>
@@ -113,8 +112,8 @@ const Home = () => {
             </UserMessages> 
             <Messages>
                 {msgs.length ? msgs.map((msg, i) => (
-                  <Message key={i} msg={msg} sender={sender} />
-                )): null}
+                    <Message key={i} msg={msg} sender={sender} />
+                  )) : null}
             </Messages>
             <MessageForm handleSubmit={handleSubmit} text={text} setText={setText} setImg={setImg}/>
           </>

@@ -1,18 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import UserImg from '../assets/images/user.png'
+import { onSnapshot, doc } from "firebase/firestore"
+import { db } from "../firebase"
 
-const User = ({ user, selectUser }) => {
-  return (
-    <UserWrapper onClick={() => selectUser(user)}>
-        <UserInfo>
-            <UserDetails>
-                <Img src={user.avatar || UserImg} alt="avatar"></Img>
-                <TextName>{user.name}</TextName>
-            </UserDetails>
-            <UserStatus style={{ background: user.isOnline ? "#34eb52" : "#eb4034" }} />
-        </UserInfo>
-    </UserWrapper>
+const User = ({ sender, user, selectUser, chat }) => {
+
+    const receiver = user?.uid
+    const [data, setData] = useState("")
+
+    useEffect(() => {
+        const id = sender > receiver ? `${sender + receiver}` : `${receiver + sender}`
+        let unsub = onSnapshot(doc(db, "lastMsg", id), (doc) => {
+            setData(doc.data())
+        })
+        return () => unsub()
+    }, [])
+
+    return (
+            <UserWrapper status={chat.name === user.name ? "selected_user" : ""} onClick={() => selectUser(user)}>
+                <UserInfo>
+                    <UserDetails>
+                        <Img src={user.avatar || UserImg} alt="avatar"></Img>
+                        <TextName>{user.name}</TextName>
+                        {data?.from !== sender && data?.unread && (
+                            <Unread>New</Unread>
+                        )}
+                    </UserDetails>
+                    <UserStatus style={{ background: user.isOnline ? "#34eb52" : "#eb4034" }} />
+                </UserInfo>
+                {data && (
+                    <Truncate>
+                        {data.from === sender ? "Me:  " : null}
+                        {data.text}
+                    </Truncate>
+                )}
+            </UserWrapper>
   )
 }
 
@@ -26,6 +49,16 @@ const UserWrapper = styled.div`
     box-shadow: 20px 20px 50px 0 rgb(0,0,0,0.5);
     border-radius: 20px;
     border: 1px solid rgb(255,255,255,0.3);
+
+    background:${props => {
+        const status = props.status
+
+        if (status === 'selected_user') {
+            return '';
+        } else {
+            return 'var(--color-6)';
+        } 
+    }}
 `
 
 const UserInfo = styled.div`
@@ -56,5 +89,18 @@ const UserStatus = styled.div`
     height: 10px;
     border-radius: 50%;
 `
-
+const Truncate = styled.p`
+    font-size: 14px;
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
+const Unread = styled.small`
+    margin-left: 10px;
+    background: var(--color-3);
+    color: white;
+    padding: 2px 4px;
+    border-radius: 10px;
+`
 export default User
