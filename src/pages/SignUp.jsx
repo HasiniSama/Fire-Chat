@@ -93,9 +93,12 @@ function SignUp() {
           {error ? <ErrorText>{error}!</ErrorText> : null}
         </ButtonContainer>
         <Text onClick={navigateToSignin}> 
+          <IconContainer>
             <Icon >
                 <FaArrowCircleLeft />
-            </Icon> Have An Account? 
+            </Icon> 
+          </IconContainer>
+          Have An Account? 
         </Text>
       </MainContainer>
      </Background>
@@ -214,7 +217,8 @@ const ErrorText = styled.h6`
   border-radius: 1rem;
   text-align: center;
 `
-
+const IconContainer = styled.div`
+`
 const Text = styled.h4`
   color: white;
   margin-bottom: 1rem;
@@ -222,6 +226,24 @@ const Text = styled.h4`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
+
+  &:hover{
+    transform: scale(1.05);
+    ${IconContainer} {
+      animation: slide1 1s ease-in-out infinite;
+    }
+  }
+
+  @keyframes slide1 {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
+
+    50% {
+      transform: translate(-10px, 0);
+    }
+  }
 `
 
 export default SignUp

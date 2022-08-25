@@ -1,31 +1,37 @@
 import React, { useContext } from 'react'
 import styled from "styled-components"
-import { NavLink } from "react-router-dom"
 import { auth, db } from "../firebase"
 import { signOut } from "firebase/auth"
 import { updateDoc, doc } from "firebase/firestore"
 import { AuthContext } from "../context/auth"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, NavLink, useLocation } from "react-router-dom"
+import FireIcon from '../assets/images/fire.png'
 
 const Navbar = () => {
-    const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const navigate = useNavigate()
+    const { user } = useContext(AuthContext)
 
     const handleSignout = async () => {
         await updateDoc(doc(db, "users", auth.currentUser.uid), {
           isOnline: false,
-        });
-        await signOut(auth);
-        navigate("/signin");
-    };
+        })
+        await signOut(auth)
+        navigate("/signin")
+    }
 
+    const location = useLocation();
+  
     return (
         <NavContainer>
-            <NameText>Fire Chat</NameText>
+            <NameText><Logo src={FireIcon}/>Fire Chat</NameText>
             <Navdiv>
-            { user ?
+            { user && location.pathname != "/signin" && location.pathname != "/signup" ?
             <>
+                { location.pathname == "/profile" ? 
+                    <NavLink to="/" style={{ textDecoration: 'none' }}><NavText>Home</NavText></NavLink>
+                :
                 <NavLink to="/profile" style={{ textDecoration: 'none' }}><NavText>Profile</NavText></NavLink>
+                }
                 <NavText onClick={handleSignout}>Logout</NavText>
             </> : <></>}
             </Navdiv>
@@ -40,12 +46,12 @@ const NavContainer = styled.nav`
     height: 70px;
     padding: 0px 20px;
     background-color: 'transparent';
-`;
+`
 
 const Navdiv = styled.div`
     display: flex;
     align-items: center;
-`;
+`
 
 const NavText = styled.h3`
     color : var(--color-2);
@@ -83,11 +89,17 @@ const NavText = styled.h3`
     &:hover::before{
         transform: skewX(45deg) translateX(-100px);
     }
-`;
+`
 
 const NameText = styled.h3`
-    color: white;
-    padding: 0.5rem 2rem;
-`;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const Logo = styled.img`
+    width: auto;
+    height: 60px;
+`
 
 export default Navbar

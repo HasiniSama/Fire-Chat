@@ -8,6 +8,10 @@ export function ShortButton({ content, children }) {
   return <ShortStyledButton>{children}{content}</ShortStyledButton>;
 }
 
+export function DisabledButton({ content, children }) {
+  return <DisableStyleButton disabled>{children}{content}</DisableStyleButton>;
+}
+
 const StyledButton = styled.button`
   border: double 3px transparent;
   background-image: linear-gradient(#000328, #000328), 
@@ -49,4 +53,13 @@ const StyledButton = styled.button`
 `
 const ShortStyledButton = styled(StyledButton)`
     height: 2.5rem !important;
+`
+
+const DisableStyleButton = styled(StyledButton)`
+    background-image: linear-gradient(#000328, #000328), 
+                    linear-gradient(30deg, #99a1a0 0%, white 79%) !important;
+
+    &:hover{
+      transform: none !important;
+    }
 `

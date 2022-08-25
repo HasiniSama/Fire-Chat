@@ -8,7 +8,8 @@ import User from "../components/User"
 import MessageForm from "../components/MessageForm"
 import Message from "../components/Message"
 import NavBar from '../components/Navbar'
-
+import Icon from "../components/Icon"
+import { FaSearch } from "react-icons/fa"
 
 const Home = () => {
 
@@ -99,14 +100,21 @@ const Home = () => {
     }
 
   return (
-    <Background>
+    <>
       <NavBar/>
       <MainContainer>
-        <UserContainer>
-          {users.map((user) => (
-            <User key={user.uid} user={user} selectUser={selectUser} sender={sender} chat={chat}/>
-          ))}
-        </UserContainer>
+        <UsersContainer>
+          <SearchBar> 
+            {/* <Icon>
+              <FaSearch/>
+            </Icon> */}
+          </SearchBar>  
+          <Users>
+            {users.map((user) => (
+              <User key={user.uid} user={user} selectUser={selectUser} sender={sender} chat={chat}/>
+            ))}
+          </Users>
+        </UsersContainer>
         <MessagesContainer>
             { chat ? (
             <>
@@ -125,13 +133,9 @@ const Home = () => {
             }
         </MessagesContainer>
       </MainContainer>
-    </Background>
+    </>
   )
-}
-
-const Background = styled.div`
-  
-`
+} 
 
 const MainContainer = styled.div`
   position: relative;
@@ -150,10 +154,22 @@ const MainContainer = styled.div`
     grid-template-columns: 1fr 5fr;
   }
 `
-const UserContainer = styled.div`
+const UsersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgb(255,255,255,0.2);
+`
+
+const Users = styled.div`
   margin-top: 10px;
-  border-right: 1px solid rgb(255,255,255,0.4);
   overflow-y: auto;
+`
+const SearchBar = styled.div`
+  height: 30px;
+  margin: 5px 30px 5px 30px;
+  /* background-color: rgb(255,255,255,0.1);
+  backdrop-filter: "blur(10px)"; 
+  border-radius: 25px; */
 `
 const MessagesContainer = styled.div`
   position: relative;
@@ -162,7 +178,6 @@ const MessagesContainer = styled.div`
 const UserMessages = styled.div`
   padding: 10px;
   text-align: center;
-  border-radius: 10px;
   background-image:linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0));
   backdrop-filter: "blur(10px)"; 
   box-shadow: 10px 10px 10px rgba(30,30,30,0.5);

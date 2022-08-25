@@ -5,6 +5,7 @@ import Camera from '../components/svg/Camera'
 import { storage, db, auth } from "../firebase"
 import { getDoc, doc, updateDoc } from "firebase/firestore"
 import { ref, getDownloadURL, uploadBytes, deleteObject } from "firebase/storage"
+import NavBar from '../components/Navbar'
 
 const Profile = () => {
 
@@ -46,6 +47,8 @@ const Profile = () => {
       }, [img]);
 
   return user ? (
+    <>
+    <NavBar/>
     <MainContainer>
         <ImgContainer>
             <Img src={user.avatar || UserImg} alt="avatar"></Img>
@@ -67,6 +70,7 @@ const Profile = () => {
             <small>Joined on: {user.createdAt.toDate().toDateString()}</small>
         </TextContainer>
   </MainContainer>
+  </>
   ): null;
 }
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { signInWithEmailAndPassword, GoogleAuthProvider, 
+  signInWithPopup, signInWithRedirect } from "firebase/auth"
 import { auth, db } from "../firebase"
-import { updateDoc, doc } from "firebase/firestore"
+import { setDoc, updateDoc, doc, Timestamp } from "firebase/firestore"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
-import Button from "../components/Button"
+import Button, { DisabledButton } from "../components/Button"
 import Icon from "../components/Icon"
 import { FaGoogle, FaArrowCircleRight } from "react-icons/fa"
 import backgroundImg from '../assets/images/sphere_background.jpg'
@@ -57,7 +58,32 @@ function SignIn() {
         }
       }
     }
-  };
+  }
+
+  // const provider = new GoogleAuthProvider()
+
+  // const signInWithGoogle = async (e) => {
+  //   e.preventDefault()
+  //   try {
+  //       const result =  await signInWithPopup(auth, provider)
+  //       // This gives you a Google Access Token. You can use it to access the Google API.
+  //       const credential = GoogleAuthProvider.credentialFromResult(result)
+  //       const token = credential.accessToken
+  //       // The signed-in user info.
+  //       const user = result.user
+
+  //       await setDoc(doc(db, "users", result.user.uid), {
+  //         uid: result.user.uid,
+  //         name: user.displayName,
+  //         email: user.email,
+  //         createdAt: Timestamp.fromDate(new Date()),
+  //         isOnline: true,
+  //       })
+  //       navigate("/")
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const navigateToSignup = (e) => {
     e.preventDefault()
@@ -67,29 +93,31 @@ function SignIn() {
   return (
     <Background>
       <NavBar/>
-      <MainContainer onSubmit={handleSubmit}>
+      <MainContainer>
         <WelcomeText>WELCOME</WelcomeText>
         <InputContainer>
           <Input type="email" placeholder="Email" name="email" value={email} onChange={handleChange}/>
           <Input type="password" placeholder="Password" name="password" value={password} onChange={handleChange} />
         </InputContainer>
-        <ButtonContainer>
+        <ButtonContainer onClick={handleSubmit}>
           {error ? <ErrorText>{error}!</ErrorText> : null}
           <Button content={loading ? "Logging in ..." : "Start Chatting"} disabled={loading} />
         </ButtonContainer>
         <LoginWith>OR</LoginWith>
         <HorizontalRule />
         <ButtonContainer>
-          <Button content="LOGIN WITH GOOGLE">
+          <DisabledButton content="LOGIN WITH GOOGLE">
             <Icon >
               <FaGoogle />
             </Icon>
-          </Button>
+          </DisabledButton>
         </ButtonContainer>
-        <Text onClick={navigateToSignup}>Create An Account?  
+        <Text onClick={navigateToSignup}>Create An Account? 
+          <IconContainer>
             <Icon >
                 <FaArrowCircleRight />
             </Icon>
+          </IconContainer> 
         </Text>
       </MainContainer>
     </Background>
@@ -222,7 +250,9 @@ const ErrorText = styled.h6`
   border-radius: 1rem;
   text-align: center;
 `
+const IconContainer = styled.div`
 
+`
 const Text = styled.h4`
   color: white;
   margin-bottom: 1rem;
@@ -230,6 +260,25 @@ const Text = styled.h4`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
+  transition: .3s;
+
+  &:hover{
+    transform: scale(1.05);
+    ${IconContainer} {
+      animation: slide1 1s ease-in-out infinite;
+    }
+  }
+
+  @keyframes slide1 {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10px, 0);
+  }
+}
 `
 
 export default SignIn

@@ -23,19 +23,21 @@ const User = ({ sender, user, selectUser, chat }) => {
                 <UserInfo>
                     <UserDetails>
                         <Img src={user.avatar || UserImg} alt="avatar"></Img>
-                        <TextName>{user.name}</TextName>
+                        <LastMessage>
+                            <TextName>{user.name}</TextName>
+                            {data && (
+                                <Truncate status={data?.from !== sender && data?.unread ? "undread" : ""}>
+                                    {data.from === sender ? "Me:  " : null}
+                                    {data.text}
+                                </Truncate>
+                            )}
+                        </LastMessage>     
                         {data?.from !== sender && data?.unread && (
                             <Unread>New</Unread>
                         )}
                     </UserDetails>
                     <UserStatus style={{ background: user.isOnline ? "#34eb52" : "#eb4034" }} />
                 </UserInfo>
-                {data && (
-                    <Truncate>
-                        {data.from === sender ? "Me:  " : null}
-                        {data.text}
-                    </Truncate>
-                )}
             </UserWrapper>
             <SmallWrapper status={chat.name === user.name ? "selected_user" : ""} 
                     onClick={() => selectUser(user)}>
@@ -68,12 +70,10 @@ const UserWrapper = styled.div`
 const UserInfo = styled.div`
     display: flex;
     justify-content: space-between;
-    align-items: center;
 `
 
 const UserDetails = styled.div`
     display: flex;
-    align-items: center;
 `
 
 const Img = styled.img`
@@ -83,29 +83,46 @@ const Img = styled.img`
     border: 1px solid var(--color-2);
 
 `
+const LastMessage = styled.div`
+    display: flex;
+    flex-direction: column;
+`
 const TextName = styled.h4`
-    margin-left: 10px;
-    color: white;
+    margin-left: 20px;
+    margin-top: 5px;
 `
 
 const UserStatus = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    margin-top: 5px;
 `
 const Truncate = styled.p`
     font-size: 14px;
+    margin-left: 20px;
+    margin-top: 5px;
     white-space: nowrap;
     width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    color:${props => {
+        const status = props.status
+
+        if (status === 'undread') {
+            return 'rgb(255,255,255)';
+        } else {
+            return 'rgb(255,255,255, 0.6)';
+        } 
+    }};
 `
 const Unread = styled.small`
     margin-left: 10px;
-    background: var(--color-3);
-    color: white;
-    padding: 2px 4px;
-    border-radius: 10px;
+    height: 25px;
+    background: #FE53BB;
+    padding: 4px 6px;
+    border-radius: 20px;
 `
 const SmallWrapper = styled.div`
     display: none;
