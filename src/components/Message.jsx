@@ -15,22 +15,20 @@ const Message = ({ msg, sender }) => {
         <SenderMessageText>
             {msg.media ? <Img src={msg.media} alt={msg.text} /> : null}
             {msg.text}
-            <br />
-            <TimeText>
-                <Moment fromNow>{msg.createdAt.toDate()}</Moment>
-            </TimeText>
         </SenderMessageText>
+        <TimeText>
+            <Moment fromNow>{msg.createdAt.toDate()}</Moment>
+        </TimeText>
     </SenderMessageWapper> :
-    <ReceiverMessageWapper ref={scrollRef}>
+    <MessageWapper ref={scrollRef}>
         <ReceiverMessageText>
             {msg.media ? <Img src={msg.media} alt={msg.text} /> : null}
             {msg.text}
-            <br />
-            <TimeText>
-                <Moment fromNow>{msg.createdAt.toDate()}</Moment>
-            </TimeText>
         </ReceiverMessageText>
-    </ReceiverMessageWapper>
+        <TimeText>
+            <Moment fromNow>{msg.createdAt.toDate()}</Moment>
+        </TimeText>
+    </MessageWapper>
 
   )
 }
@@ -42,9 +40,6 @@ const MessageWapper = styled.div`
 `
 const SenderMessageWapper = styled(MessageWapper)`
     text-align: right;
-`
-const ReceiverMessageWapper = styled(MessageWapper)`
-    
 `
 const MessageText = styled.p`
     padding: 10px;
@@ -63,20 +58,19 @@ const MessageText = styled.p`
 `
 const SenderMessageText = styled(MessageText)`
     background: var(--color-1);
-    color: white;
+    background-color: rgb(72, 141, 247);
 `
 const ReceiverMessageText = styled(MessageText)`
-    background: var(--color-3);
-    color: white;
+    background-color: rgba(255,255,255,0.1);
 `
 const Img = styled.img`
     width: 100%;
     border-radius: 5px;
 `
 const TimeText = styled.small`
-    display: inline-block;
-    margin-top: 15px;
-    opacity: 0.8;
+    display: block;
+    margin-top: 5px;
+    opacity: 0.5;
 `
 
 export default Message

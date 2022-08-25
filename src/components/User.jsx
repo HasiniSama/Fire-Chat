@@ -49,18 +49,12 @@ const UserWrapper = styled.div`
     margin-bottom: 10px;
     padding: 10px;
     cursor: pointer;
-    background-color: 'transparent';
-    background-image:linear-gradient(to bottom right, rgba(255,255,255,0.2), rgba(255,255,255,0));
-    backdrop-filter: blur(5px);
-    box-shadow: 20px 20px 50px 0 rgb(0,0,0,0.5);
-    border-radius: 20px;
-    border: 1px solid rgb(255,255,255,0.3);
-
+    
     background:${props => {
         const status = props.status
 
         if (status === 'selected_user') {
-            return '';
+            return 'rgba(255,255,255,0.1)';
         } else {
             return 'var(--color-6)';
         } 
@@ -126,7 +120,7 @@ const SmallWrapper = styled.div`
         const status = props.status
 
         if (status === 'selected_user') {
-            return 'white';
+            return 'rgba(255,255,255,0.1)';
         } else {
             return 'var(--color-6)';
         } 

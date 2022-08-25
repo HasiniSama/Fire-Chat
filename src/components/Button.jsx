@@ -24,32 +24,29 @@ const StyledButton = styled.button`
   height: 3rem;
   color: white;
   cursor: pointer;
-  transition: 0.3s ease-in-out all;
+  transition: 0.5s;
   margin-top: 1.5rem;
-
+  overflow: hidden;
+  position: relative;
+  
   &:hover{
-    /* background-image: linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%), 
-                    linear-gradient(30deg, #09FBD3 0%, #FE53BB 79%);
-    color: #000328; */
     transform: scale(1.05);
   }
-`
 
+  &::before{
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 100%;
+      background: rgb(255,255,255,0.5);
+      transform: skewX(45deg) translateX(160px) translateZ(100px);
+      transition: 0.5s;
+  }
+
+  &:hover::before{
+      transform: skewX(45deg) translateX(-160px);
+  }
+`
 const ShortStyledButton = styled(StyledButton)`
     height: 2.5rem !important;
 `
-/*
-const Ripple = styled.span`
-  position: absolute; 
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple 600ms linear;
-  background-color: rgba(255, 255, 255, 0.7);
-
-  @keyframes ripple {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-`;*/
