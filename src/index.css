@@ -7,20 +7,36 @@ body {
     ;
   background-color: var(--color-1);
   color: var(--color-2);
-  background-image: url('./assets/images/sphere_background.jpg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -ms-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 100vh;
-  width: 100vw;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+::-webkit-scrollbar{
+  width: 0.5rem;
+}
+::-webkit-scrollbar-track{
+  background: #000328;
+  margin-block: .5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(#FE53BB, #09FBD3);
+  border-radius: 100vw;
+  max-height: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(#d4459b, #07cfad);
+}
+
+@supports (scrollbar-color:  red blue){
+  *{
+    scrollbar-color: #FE53BB #000328;
+  }
 }
 
 :root {

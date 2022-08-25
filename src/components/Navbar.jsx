@@ -50,16 +50,39 @@ const Navdiv = styled.div`
 const NavText = styled.h3`
     color : var(--color-2);
     text-decoration: none !important;
+    font-size: 1em;
     padding: 0.5rem 2rem;
+    border: 1px solid rgb(255,255,255,0.4);
+    border-right: 0.5px solid rgb(255,255,255,0.2);
+    border-bottom: 0.5px solid rgb(255,255,255,0.2);
     border-radius: 10px;
-    border: 1px solid rgb(255,255,255,0.3);
-    transition: 0.3s ease-in-out all;
+    box-shadow: 0 5px 45px rgb(0,0,0,0.1);
+    backdrop-filter: blur(2px);
+    transition: 0.5s;
     margin: 1rem;
     cursor: pointer;
+    overflow: hidden;
 
-    &:hover{
-    transform: scale(1.05);
-  }
+    /* &:hover{
+        transform: scale(1.05);
+        transform: translateY(-20px);
+    } */
+
+    &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 25px;
+        height: 100%;
+        background: rgb(255,255,255,0.5);
+        transform: skewX(45deg) translateX(110px);
+        transition: 0.5s;
+    }
+
+    &:hover::before{
+        transform: skewX(45deg) translateX(-100px);
+    }
 `;
 
 const NameText = styled.h3`

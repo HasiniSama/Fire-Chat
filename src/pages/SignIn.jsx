@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase";
-import { updateDoc, doc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Button from "../components/Button";
-import Icon from "../components/Icon";
-import { FaGoogle, FaArrowCircleRight } from "react-icons/fa";
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth, db } from "../firebase"
+import { updateDoc, doc } from "firebase/firestore"
+import { useNavigate } from "react-router-dom"
+import styled from "styled-components"
+import Button from "../components/Button"
+import Icon from "../components/Icon"
+import { FaGoogle, FaArrowCircleRight } from "react-icons/fa"
+import backgroundImg from '../assets/images/sphere_background.jpg'
+import NavBar from '../components/Navbar'
 
 function SignIn() {
 
@@ -15,42 +17,42 @@ function SignIn() {
     password: "",
     error: null,
     loading: false,
-  });
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const { email, password, error, loading } = data;
+  const { email, password, error, loading } = data
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+    setData({ ...data, [e.target.name]: e.target.value })
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setData({ ...data, error: null, loading: true });
+    e.preventDefault()
+    setData({ ...data, error: null, loading: true })
     if (!email || !password) {
-      setData({ ...data, error: "All fields are required" });
+      setData({ ...data, error: "All fields are required" })
     }else{
       try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
+        const result = await signInWithEmailAndPassword(auth, email, password)
   
         await updateDoc(doc(db, "users", result.user.uid), {
           isOnline: true,
-        });
+        })
         setData({
           email: "",
           password: "",
           error: null,
           loading: false,
-        });
-        navigate("/");
+        })
+        navigate("/")
       } catch (err) {
         if ( err.code === 'auth/wrong-password'){
-          setData({ ...data, error: "Wrong password", loading: false });
+          setData({ ...data, error: "Wrong password", loading: false })
         }else if( err.code === 'auth/user-not-found'){
-          setData({ ...data, error: "User email not found", loading: false });
+          setData({ ...data, error: "User email not found", loading: false })
         }else{
-          setData({ ...data, error: "Error creating account", loading: false });
+          setData({ ...data, error: "Error creating account", loading: false })
           console.log(err.message)
         }
       }
@@ -58,11 +60,13 @@ function SignIn() {
   };
 
   const navigateToSignup = (e) => {
-    e.preventDefault();
-    navigate("/signup");
-  };
+    e.preventDefault()
+    navigate("/signup")
+  }
 
   return (
+    <Background>
+      <NavBar/>
       <MainContainer onSubmit={handleSubmit}>
         <WelcomeText>WELCOME</WelcomeText>
         <InputContainer>
@@ -88,9 +92,21 @@ function SignIn() {
             </Icon>
         </Text>
       </MainContainer>
+    </Background>
   )
 }
 
+const Background = styled.div`
+  background-image: url(${backgroundImg});
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  position:fixed;
+  width: 100%;
+  height: 100%;
+`
 const MainContainer = styled.form`
   display: flex;
   align-items: center;
@@ -132,12 +148,12 @@ const MainContainer = styled.form`
   @media only screen and (min-width: 1280px) {
     width: 30vw;
   }
-`;
+`
 
 const WelcomeText = styled.h2`
   margin: 3rem 0 2rem 0;
   color: white;
-`;
+`
 
 const InputContainer = styled.div`
   display: flex;
@@ -146,7 +162,7 @@ const InputContainer = styled.div`
   align-items: center;
   height: 20%;
   width: 100%;
-`;
+`
 
 const ButtonContainer = styled.div`
   margin: 0rem 0 2rem 0;
@@ -155,7 +171,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const LoginWith = styled.h5`
   @media only screen and (min-width: 1280px) {
@@ -170,7 +186,7 @@ const HorizontalRule = styled.hr`
   background-color: #ebd0d0;
   margin: 1.5rem 0 1rem 0;
   backdrop-filter: blur(25px);
-`;
+`
 
 const Input = styled.input`
   background: rgba(255, 255, 255, 0.15);
@@ -196,7 +212,7 @@ const Input = styled.input`
     font-weight: 100;
     font-size: 1rem;
   }
-`;
+`
 
 const ErrorText = styled.h6`
   color:  var(--color-1);
@@ -205,7 +221,7 @@ const ErrorText = styled.h6`
   background: white;
   border-radius: 1rem;
   text-align: center;
-`;
+`
 
 const Text = styled.h4`
   color: white;
@@ -214,7 +230,6 @@ const Text = styled.h4`
   align-items: center;
   justify-content: space-evenly;
   cursor: pointer;
-`;
-
+`
 
 export default SignIn

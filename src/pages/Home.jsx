@@ -6,7 +6,8 @@ import { collection, query, where, onSnapshot, addDoc,
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
 import User from "../components/User"
 import MessageForm from "../components/MessageForm"
-import Message from "../components/Message";
+import Message from "../components/Message"
+import NavBar from '../components/Navbar'
 
 
 const Home = () => {
@@ -98,32 +99,39 @@ const Home = () => {
     }
 
   return (
-    <MainContainer>
-      <UserContainer>
-        {users.map((user) => (
-          <User key={user.uid} user={user} selectUser={selectUser} sender={sender} chat={chat}/>
-        ))}
-      </UserContainer>
-      <MessagesContainer>
-          { chat ? (
-          <>
-            <UserMessages>
-              <h3>{chat.name}</h3>
-            </UserMessages> 
-            <Messages>
-                {msgs.length ? msgs.map((msg, i) => (
-                    <Message key={i} msg={msg} sender={sender} />
-                  )) : null}
-            </Messages>
-            <MessageForm handleSubmit={handleSubmit} text={text} setText={setText} setImg={setImg}/>
-          </>
-          ) : 
-            <NoConv>Select a User to Chat</NoConv>
-          }
-      </MessagesContainer>
-    </MainContainer>
+    <Background>
+      <NavBar/>
+      <MainContainer>
+        <UserContainer>
+          {users.map((user) => (
+            <User key={user.uid} user={user} selectUser={selectUser} sender={sender} chat={chat}/>
+          ))}
+        </UserContainer>
+        <MessagesContainer>
+            { chat ? (
+            <>
+              <UserMessages>
+                <h3>{chat.name}</h3>
+              </UserMessages> 
+              <Messages>
+                  {msgs.length ? msgs.map((msg, i) => (
+                      <Message key={i} msg={msg} sender={sender} />
+                    )) : null}
+              </Messages>
+              <MessageForm handleSubmit={handleSubmit} text={text} setText={setText} setImg={setImg}/>
+            </>
+            ) : 
+              <NoConv>Select a User to Chat</NoConv>
+            }
+        </MessagesContainer>
+      </MainContainer>
+    </Background>
   )
 }
+
+const Background = styled.div`
+  
+`
 
 const MainContainer = styled.div`
   position: relative;
@@ -144,7 +152,7 @@ const MainContainer = styled.div`
 `
 const UserContainer = styled.div`
   margin-top: 10px;
-  border-right: 2px solid var(--color-2);
+  border-right: 1px solid rgb(255,255,255,0.4);
   overflow-y: auto;
 `
 const MessagesContainer = styled.div`
@@ -154,7 +162,10 @@ const MessagesContainer = styled.div`
 const UserMessages = styled.div`
   padding: 10px;
   text-align: center;
-  border-bottom: 2px solid var(--color-6);
+  border-radius: 10px;
+  background-image:linear-gradient(to bottom right, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  backdrop-filter: "blur(10px)"; 
+  box-shadow: 10px 10px 10px rgba(30,30,30,0.5);
 `
 const NoConv = styled.div`
   font-size: 20px;
