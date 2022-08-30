@@ -1,6 +1,8 @@
 # Fire-Chat
 
-A web chat application using React and Firebase
+A web chat application using React and Firebase. 
+
+Contains SingleSignOn, profile picture customization, and image chatting features using Firestore Database, Cloud Storage, and Authentication with a simple minimalist UI and CSS animations.
 
 # Getting Started with Create React App
 
